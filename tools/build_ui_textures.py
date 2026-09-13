@@ -16,27 +16,35 @@ OUT = Path(__file__).resolve().parents[1] / "build" / "textures"
 
 
 def make_frame() -> None:
-    """Draw only a gentle, line-free inner vignette for the map edge."""
+    """Mask Anomaly's polygonal map clip behind a smooth, line-free edge shade."""
     scale = 4
     side = SIZE * scale
     center = side // 2
-    radius = 226 * scale
     image = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-
     shadow_mask = Image.new("L", (side, side), 0)
     draw = ImageDraw.Draw(shadow_mask)
-    vignette_width = 56 * scale
-    for offset in range(vignette_width + 1):
-        ratio = offset / vignette_width
-        alpha = int(13 * (1 - ratio) * (1 - ratio))
-        current_radius = radius - offset
+    # The HUD stretches its background slightly wider than the map frame.
+    # A compensated ellipse therefore becomes a visually round mask in-game.
+    for radius in range(246, 0, -1):
+        if radius < 208:
+            alpha = 0
+        elif radius < 220:
+            alpha = int(220 * (radius - 208) / 12)
+        elif radius <= 230:
+            alpha = 220
+        elif radius < 246:
+            alpha = int(220 * (246 - radius) / 16)
+        else:
+            alpha = 0
+        radius_x = int(radius * 0.965 * scale)
+        radius_y = radius * scale
         draw.ellipse(
-            (center - current_radius, center - current_radius,
-             center + current_radius, center + current_radius),
+            (center - radius_x, center - radius_y,
+             center + radius_x, center + radius_y),
             fill=alpha,
         )
     shadow = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-    shadow.putalpha(shadow_mask.filter(ImageFilter.GaussianBlur(2 * scale)))
+    shadow.putalpha(shadow_mask.filter(ImageFilter.GaussianBlur(0.75 * scale)))
     image = Image.alpha_composite(image, shadow)
     image.resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(OUT / "sep_minimap_frame.png")
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.3 — 2026-09-13
+
+- Replaced the faint vignette with a compensated soft alpha mask that hides Anomaly's polygonal `rounded` clip edge.
+- Keeps a light edge shade while presenting a visually smooth circular map.
+
 ## 1.0.2 — 2026-09-13
 
 - Removed the rigid decorative circle which did not align with Anomaly's map clipping.
