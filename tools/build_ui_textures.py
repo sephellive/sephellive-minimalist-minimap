@@ -90,11 +90,17 @@ def make_player_arrow() -> None:
     image.save(OUT / "sep_minimap_player.png")
 
 
+def make_counter_background() -> None:
+    """Create a neutral transparent backing for Anomaly's required counter node."""
+    Image.new("RGBA", (8, 8), (0, 0, 0, 0)).save(OUT / "sep_minimap_counter.png")
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     make_frame()
     make_compass()
     make_player_arrow()
+    make_counter_background()
 
 
 if __name__ == "__main__":
