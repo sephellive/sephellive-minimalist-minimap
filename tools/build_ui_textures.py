@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 
 SIZE = 512
@@ -34,47 +34,15 @@ def centered_text(draw: ImageDraw.ImageDraw, xy: tuple[int, int], text: str,
 
 
 def make_compass() -> None:
-    """Create compass labels and an over-map mask for the engine's faceted edge."""
-    scale = 4
-    side = SIZE * scale
-    center = side // 2
-    alpha_mask = Image.new("L", (side, side), 0)
-    mask_draw = ImageDraw.Draw(alpha_mask)
-
-    # The compass is rendered after level_frame, so this annulus actually covers
-    # the polygonal clip. Its transparent inner edge is supersampled into a true
-    # circle; the outside fades away instead of forming a square panel.
-    for radius in range(276, 0, -1):
-        if radius < 242:
-            alpha = 0
-        elif radius < 250:
-            alpha = int(225 * (radius - 242) / 8)
-        elif radius <= 258:
-            alpha = 225
-        elif radius < 276:
-            alpha = int(225 * (276 - radius) / 18)
-        else:
-            alpha = 0
-        scaled_radius = radius * scale
-        mask_draw.ellipse(
-            (center - scaled_radius, center - scaled_radius,
-             center + scaled_radius, center + scaled_radius),
-            fill=alpha,
-        )
-
-    mask_layer = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-    mask_layer.putalpha(alpha_mask.filter(ImageFilter.GaussianBlur(scale * 0.35)))
-    image = mask_layer.resize((SIZE, SIZE), Image.Resampling.LANCZOS)
-
-    labels = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(labels)
+    """Create label-only compass art; the engine handles the circular clipping."""
+    image = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image)
     font = label_font(32)
     neutral = (205, 209, 207, 235)
     centered_text(draw, (256, 51), "N", font, (222, 94, 38, 255))
     centered_text(draw, (461, 256), "E", font, neutral)
     centered_text(draw, (256, 461), "S", font, neutral)
     centered_text(draw, (51, 256), "W", font, neutral)
-    image = Image.alpha_composite(image, labels)
     image.save(OUT / "sep_minimap_compass.png")
 
 

@@ -1,6 +1,6 @@
 <window>
 	<minimap>
-		<level_frame x="1.265" y="0.88" width="0.202" height="0.202" stretch="1" alignment="c" rounded="1" a="220"/>
+		<level_frame x="1.265" y="0.88" width="0.202" height="0.202" stretch="1" alignment="c" rounded="1" ratio_mode="1" a="220"/>
 		<background width="0.262" height="0.262" stretch="1" alignment="c">
 			<texture>ui\sephellive_minimap\sep_minimap_frame</texture>
 		</background>

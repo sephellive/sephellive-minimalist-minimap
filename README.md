@@ -10,7 +10,7 @@ minimap addon to supply its files.
 
 ## Requirements
 
-- S.T.A.L.K.E.R. Anomaly 1.5.3 / GAMMA.
+- G.A.M.M.A. 0.9.5, or S.T.A.L.K.E.R. Anomaly 1.5.3 with current Modded Exes.
 - A 16:9 or 21:9 display profile.
 
 The addon replaces `zone_map_16.xml` and `zone_map_21.xml`; do not enable it

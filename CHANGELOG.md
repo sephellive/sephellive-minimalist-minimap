@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.5 — 2026-09-13
+
+- Removed the over-map dark mask and its visible border entirely.
+- Enabled Modded Exes' native minimap geometry fix with `ratio_mode="1"` on both layouts.
+
 ## 1.0.4 — 2026-09-13
 
 - Moved the smoothing mask from the background layer to the compass layer, which Anomaly renders above the map.
