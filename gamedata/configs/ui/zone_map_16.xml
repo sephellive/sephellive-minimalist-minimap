@@ -1,0 +1,17 @@
+<window>
+	<minimap>
+		<level_frame x="1.243" y="0.88" width="0.202" height="0.202" stretch="1" alignment="c" rounded="1" a="220"/>
+		<background width="0.262" height="0.262" stretch="1" alignment="c">
+			<texture>ui\sephellive_minimap\sep_minimap_frame</texture>
+		</background>
+		<clock_wnd x="0.84" y="0.9" width="39" height="16" alignment="c">
+			<text x="0" y="0" font="letterica16" r="223" g="223" b="223" align="c" vert_align="c"/>
+		</clock_wnd>
+		<compass x="0.5" y="0.5" width="172" height="172" stretch="1" heading="1" rounded="0" alignment="c">
+			<texture>ui\sephellive_minimap\sep_minimap_compass</texture>
+		</compass>
+		<center width="24" height="32" alignment="c" stretch="1">
+			<texture>ui\sephellive_minimap\sep_minimap_player</texture>
+		</center>
+	</minimap>
+</window>

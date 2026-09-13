@@ -26,7 +26,7 @@ jobs:
         id: metadata
         shell: bash
         run: |
-          version="v0.0.${GITHUB_RUN_NUMBER}"
+          version="v$(tr -d '[:space:]' < VERSION)"
           repository_name="${GITHUB_REPOSITORY#*/}"
           archive_name="${repository_name}-${version}.zip"
 

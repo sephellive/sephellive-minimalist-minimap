@@ -1,64 +1,58 @@
-# &lt;Addon Name&gt;
+# Sephellive Minimalist Minimap
 
-Short description of the addon.
+A compact circular minimap for S.T.A.L.K.E.R. Anomaly and GAMMA. It preserves a
+directional player arrow and a coloured `N`, removes the bright north sector,
+and adds a smooth circular rim with a restrained inner vignette.
 
-This repository is a template for small, independent S.T.A.L.K.E.R. Anomaly addons. Replace the placeholders, add the addon files under `gamedata`, and develop the mod without a separate build system.
+This is a standalone addon. It contains neither third-party scripts nor textures
+and does not require SquareDOV, Modular Compass & Minimap Extension, or another
+minimap addon to supply its files.
 
 ## Requirements
 
-- S.T.A.L.K.E.R. Anomaly 1.5.3
-- [Anomaly Modded Exes](https://github.com/themrdemonized/xray-monolith) when the addon uses DLTX or another engine extension
-- Git LFS when the addon contains binary assets tracked by `.gitattributes`
+- S.T.A.L.K.E.R. Anomaly 1.5.3 / GAMMA.
+- A 16:9 or 21:9 display profile.
+
+The addon replaces `zone_map_16.xml` and `zone_map_21.xml`; do not enable it
+alongside another mod that changes the same minimap layouts.
 
 ## Installation
 
-Download the ZIP from the latest GitHub Release and extract it directly into the S.T.A.L.K.E.R. Anomaly directory. The archive starts with `gamedata/`; it has no extra wrapper directory.
+Download the ZIP from the latest GitHub Release and install it in MO2 as a normal
+mod. Put it below other minimap/HUD mods that replace `zone_map_16.xml` or
+`zone_map_21.xml`. The archive starts with `gamedata/`; it has no extra wrapper
+directory.
 
-For a local checkout, run:
-
-```powershell
-./tools/install.ps1 -GamePath "D:\Stalker\Anomaly-Test"
-```
-
-The installer copies and updates this addon's files. It does not delete the game's existing `gamedata` or files belonging to other addons.
-
-To download and install the latest GitHub Release instead of the local files:
-
-```powershell
-./tools/install.ps1 -GamePath "D:\Stalker\Anomaly-Test" -Latest
-```
-
-`-Latest` derives the repository from the `origin` remote. Public releases need no token. For a private repository, set `GH_TOKEN` or `GITHUB_TOKEN` to a token that can read the repository. Local installation never uses the GitHub API.
-
-## Development
-
-Create a repository from this template, then clone it:
-
-```powershell
-git clone https://github.com/<owner>/<repository>.git
-cd <repository>
-git lfs install
-```
-
-Put only the files shipped by the addon under `gamedata/`. Add standard Anomaly directories such as `textures`, `meshes`, `sounds`, or `shaders` only when the addon needs them. The tracked `.gitkeep` files only preserve the starter directories and are excluded from release ZIPs.
-
-For DLTX, the filename must identify the original root LTX file: `mod_<base-file-name>_sep_<module>.ltx`. For example, a patch to `system.ltx` can be named `mod_system_sep_economy.ltx`. Place it beside the root file it patches. Do not use DLTX syntax unless the addon declares Modded Exes as a requirement.
-
-## Branching
-
-- `master` is stable and releasable.
-- `feature/*` is for development and testing.
+No FOMOD is included deliberately: this addon has one coherent visual preset and
+no install-time choices. A FOMOD would add an unnecessary step without providing
+any benefit.
 
 ## Releases
 
-Every push or merge to `master` runs GitHub Actions. The workflow packages `gamedata/`, creates version `v0.0.<run number>`, creates the matching Git tag and GitHub Release with generated notes, and uploads `<repository>-<version>.zip`.
+Every push to `master` runs GitHub Actions. The workflow packages `gamedata/`,
+reads the version from `VERSION`, and creates or updates the matching GitHub
+Release.
 
-Rerunning the same workflow keeps the same version and replaces the release asset instead of creating a conflicting tag.
+## Credits and rights
 
-## Git LFS
+**Implementation, clean-room UI textures, configuration, and packaging:**
+Sephellive.
 
-The template tracks common binary game assets (`.dds`, `.ogf`, `.object`, `.ogg`, `.wav`, `.tga`, and `.png`) with Git LFS. Install Git LFS before adding those files and ensure CI has access to the LFS objects. Text files such as LTX, Lua scripts, Markdown, YAML, and PowerShell remain in normal Git history.
+The addon was conceived after using these projects:
+
+- SquareDOV — Blackgrowl, RavenAscendant, Tronex, Strogglet15 and contributors.
+- Modular Compass & Minimap Extension — lifestorock.
+- Raven800's Compass Overlay — Raven800.
+
+Their work remains the property of its respective authors. This addon does not
+include, extract, modify, or redistribute their code, scripts, or textures.
+SquareDOV's terms expressly restrict redistribution of its textures; that is why
+this release uses newly created, independent UI assets instead of repackaging
+those files. S.T.A.L.K.E.R. and S.T.A.L.K.E.R. Anomaly belong to their respective
+rightsholders.
 
 ## License
 
-No license is selected by this template. Replace `LICENSE` with the license appropriate for your original work before publishing. Do not grant rights to game assets or third-party material you do not own.
+The original files in this repository are available under the MIT License. No
+rights are granted for S.T.A.L.K.E.R., S.T.A.L.K.E.R. Anomaly, or third-party
+projects named above.
