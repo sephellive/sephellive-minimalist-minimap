@@ -34,15 +34,46 @@ def centered_text(draw: ImageDraw.ImageDraw, xy: tuple[int, int], text: str,
 
 
 def make_compass() -> None:
-    """Create label-only compass art; the engine handles the circular clipping."""
-    image = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(image)
+    """Create labels plus a hairline overlay that conceals the faceted clip."""
+    scale = 4
+    side = SIZE * scale
+    center = side // 2
+    alpha_mask = Image.new("L", (side, side), 0)
+    mask_draw = ImageDraw.Draw(alpha_mask)
+
+    # rounded="1" is polygonal in X-Ray. This narrow annulus covers only that
+    # final edge; unlike the old mask it does not create a broad dark frame.
+    for radius in range(264, 0, -1):
+        if radius < 249:
+            alpha = 0
+        elif radius < 253:
+            alpha = int(210 * (radius - 249) / 4)
+        elif radius <= 257:
+            alpha = 210
+        elif radius < 264:
+            alpha = int(210 * (264 - radius) / 7)
+        else:
+            alpha = 0
+        scaled_radius = radius * scale
+        mask_draw.ellipse(
+            (center - scaled_radius, center - scaled_radius,
+             center + scaled_radius, center + scaled_radius),
+            fill=alpha,
+        )
+
+    edge = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    edge.putalpha(alpha_mask)
+    image = edge.resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+
+    labels = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(labels)
     font = label_font(32)
     neutral = (205, 209, 207, 235)
     centered_text(draw, (256, 51), "N", font, (222, 94, 38, 255))
     centered_text(draw, (461, 256), "E", font, neutral)
     centered_text(draw, (256, 461), "S", font, neutral)
     centered_text(draw, (51, 256), "W", font, neutral)
+    image = Image.alpha_composite(image, labels)
     image.save(OUT / "sep_minimap_compass.png")
 
 

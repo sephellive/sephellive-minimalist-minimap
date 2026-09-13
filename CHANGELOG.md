@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.6 — 2026-09-13
+
+- Added a supersampled hairline edge overlay to conceal the engine's remaining polygon corners.
+- The overlay is limited to the final few pixels and does not create the broad border used in 1.0.4.
+
 ## 1.0.5 — 2026-09-13
 
 - Removed the over-map dark mask and its visible border entirely.
