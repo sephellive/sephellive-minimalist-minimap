@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4 — 2026-09-13
+
+- Moved the smoothing mask from the background layer to the compass layer, which Anomaly renders above the map.
+- The over-map alpha annulus now conceals the engine's visibly faceted circular clipping edge.
+
 ## 1.0.3 — 2026-09-13
 
 - Replaced the faint vignette with a compensated soft alpha mask that hides Anomaly's polygonal `rounded` clip edge.
