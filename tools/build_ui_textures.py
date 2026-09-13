@@ -16,41 +16,28 @@ OUT = Path(__file__).resolve().parents[1] / "build" / "textures"
 
 
 def make_frame() -> None:
-    """Draw a thin anti-aliased rim and a restrained inner map vignette."""
+    """Draw only a gentle, line-free inner vignette for the map edge."""
     scale = 4
     side = SIZE * scale
     center = side // 2
     radius = 226 * scale
     image = Image.new("RGBA", (side, side), (0, 0, 0, 0))
 
-    shadow = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(shadow)
-    for offset in range(34 * scale):
-        ratio = offset / (34 * scale)
-        alpha = int(4 + 58 * ratio * ratio)
+    shadow_mask = Image.new("L", (side, side), 0)
+    draw = ImageDraw.Draw(shadow_mask)
+    vignette_width = 56 * scale
+    for offset in range(vignette_width + 1):
+        ratio = offset / vignette_width
+        alpha = int(13 * (1 - ratio) * (1 - ratio))
         current_radius = radius - offset
         draw.ellipse(
             (center - current_radius, center - current_radius,
              center + current_radius, center + current_radius),
-            outline=(0, 0, 0, alpha),
-            width=scale,
+            fill=alpha,
         )
-    image = Image.alpha_composite(image, shadow.filter(ImageFilter.GaussianBlur(1.25 * scale)))
-
-    rim = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-    rim_draw = ImageDraw.Draw(rim)
-    rim_draw.ellipse(
-        (center - radius, center - radius, center + radius, center + radius),
-        outline=(8, 10, 11, 205),
-        width=2 * scale,
-    )
-    rim_draw.ellipse(
-        (center - radius + 4 * scale, center - radius + 4 * scale,
-         center + radius - 4 * scale, center + radius - 4 * scale),
-        outline=(110, 87, 60, 85),
-        width=scale,
-    )
-    image = Image.alpha_composite(image, rim)
+    shadow = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    shadow.putalpha(shadow_mask.filter(ImageFilter.GaussianBlur(2 * scale)))
+    image = Image.alpha_composite(image, shadow)
     image.resize((SIZE, SIZE), Image.Resampling.LANCZOS).save(OUT / "sep_minimap_frame.png")
 
 
@@ -81,12 +68,11 @@ def make_compass() -> None:
 
 
 def make_player_arrow() -> None:
-    """Create an original, unobtrusive forward arrow for the player marker."""
+    """Create a small, soft-coloured forward arrow for the player marker."""
     image = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
     draw = ImageDraw.Draw(image)
-    draw.polygon([(32, 4), (54, 55), (32, 45), (10, 55)], fill=(19, 15, 11, 210))
-    draw.polygon([(32, 8), (49, 51), (32, 41), (15, 51)], fill=(204, 78, 29, 255))
-    draw.polygon([(32, 15), (39, 40), (32, 35), (25, 40)], fill=(244, 133, 53, 255))
+    draw.polygon([(32, 13), (45, 47), (32, 39), (19, 47)], fill=(172, 83, 42, 205))
+    draw.polygon([(32, 18), (39, 40), (32, 35), (25, 40)], fill=(223, 126, 68, 220))
     image.save(OUT / "sep_minimap_player.png")
 
 

@@ -10,7 +10,7 @@
 		<compass x="0.5" y="0.5" width="172" height="172" stretch="1" heading="1" rounded="0" alignment="c">
 			<texture>ui\sephellive_minimap\sep_minimap_compass</texture>
 		</compass>
-		<center width="24" height="32" alignment="c" stretch="1">
+		<center width="15" height="20" alignment="c" stretch="1">
 			<texture>ui\sephellive_minimap\sep_minimap_player</texture>
 		</center>
 		<static_counter x="0" y="0" width="0" height="0" alignment="c">

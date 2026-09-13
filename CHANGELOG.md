@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2 — 2026-09-13
+
+- Removed the rigid decorative circle which did not align with Anomaly's map clipping.
+- Reduced the inner vignette to a very light, line-free edge shade.
+- Reduced and softened the player arrow.
+
 ## 1.0.1 — 2026-09-13
 
 - Restored Anomaly's required `static_counter` node in both supported minimap layouts.
